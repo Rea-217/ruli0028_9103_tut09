@@ -5,18 +5,5 @@ This is my first local change to the repo!
 
 This is a normal paragraph
 
-# Header 1
-## Header 2
-### Header 3
-#### Header 4
-##### Header 5
-###### Header 6
-
-**Bold Text** or __Bold Text__
-*Italic Text* or _Italic Text_
-
-![An image of a cat](https://placekitten.com/200/300
-Links to an external site.)
-
 ![An image of the Mona Lisa](readmeImages/Mona_Lisa_by_Leonardo_da_Vinci_500_x_700.jpg
 Links to an external site.)
