@@ -6,4 +6,4 @@ This is my first local change to the repo!
 This is a normal paragraph
 
 ![An image of a cat](https://placekitten.com/200/300
-Links to an external site.)
+)
