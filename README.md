@@ -14,3 +14,6 @@ This is a normal paragraph
 
 **Bold Text** or __Bold Text__
 *Italic Text* or _Italic Text_
+
+![An image of a cat](https://placekitten.com/200/300
+Links to an external site.)
