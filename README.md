@@ -11,3 +11,6 @@ This is a normal paragraph
 #### Header 4
 ##### Header 5
 ###### Header 6
+
+**Bold Text** or __Bold Text__
+*Italic Text* or _Italic Text_
