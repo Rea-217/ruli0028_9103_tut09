@@ -2,3 +2,5 @@
 My first repository for IDE9103
 
 This is my first local change to the repo!
+
+This is a normal paragraph
