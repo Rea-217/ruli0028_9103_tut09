@@ -9,6 +9,11 @@ I hope to draw on this "style layering" strategy in my project, allowing differe
 
 ![The psychological state of characters](https://www.agendamag.com/wp-content/uploads/2023/06/the-spot-from-spider-man-across-the-spider-verse-scene.jpg)
 
+![Spider-Verse Character Style](https://akm-img-a-in.tosshub.com/indiatoday/images/story/202305/pav-sixteen_nine.jpg?VersionId=nuY4DByPdinnRtXEE0oRVyaCVKA.EUG1)
+
 ## Part 2: Coding Technique Exploration
-（Description）
-（images and code link）
+In order to achieve the effect of different characters corresponding to different drawing styles, I choose to use the built-in 'filter()' function provided by **p5.js**. This function allows multiple preset filters to be applied to the canvas, such as GRAY, INVERT, BLUR, etc., thus easily achieving the switching of image styles.
+
+By dynamically invoking different filters when the user interacts with the character, the unique visual style of the character in different universes can be simulated. For example, when a user selects a specific character, the screen automatically applies the corresponding filter to enhance the personalized expression of the character.
+
+![p5.js Filter Example](https://p5js.org/assets/examples/style.jpg)
