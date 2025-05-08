@@ -1,9 +1,9 @@
-# ruli0028_9103_tut09
-My first repository for IDE9103
+# Quiz 8 - Design Research
 
-This is my first local change to the repo!
+## Part 1: Imaging Technique Inspiration
+（Description）
+（images）
 
-This is a normal paragraph
-
-![An image of a cat](https://placekitten.com/200/300
- )
+## Part 2: Coding Technique Exploration
+（Description）
+（images and code link）
