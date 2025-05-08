@@ -16,4 +16,6 @@ In order to achieve the effect of different characters corresponding to differen
 
 By dynamically invoking different filters when the user interacts with the character, the unique visual style of the character in different universes can be simulated. For example, when a user selects a specific character, the screen automatically applies the corresponding filter to enhance the personalized expression of the character.
 
-![p5.js Filter Example](https://p5js.org/assets/examples/style.jpg)
+![p5.js Filter Example](https://p5js.org/assets/style.png)
+
+[https://p5js.org/examples/3d-filter-shader/](https://p5js.org/examples/3d-filter-shader/)
