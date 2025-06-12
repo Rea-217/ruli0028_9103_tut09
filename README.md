@@ -14,31 +14,37 @@ Move your mouse to control background ripple and cow-leg swing; press **Space** 
 - Press any key (Space/Enter) ⇒ Switch to the enhanced animation mode
 
 ## 2. Personal animation plan
-- **Drive mode**：User Input（鼠标+键盘）  
-- **与组内区别**：  
-  - 我的版本基于「交互触发」，通过鼠标位置实时调整动画参数；  
-  - 其他同学分别使用了音频、Perlin 噪声、定时器等方式，效果各异。
+- **Drive mode**：User Input（Mouse + keyboard）  
+- **The difference from within the group**：  
+  - My version is based on "interactive triggering", and the animation parameters are adjusted in real time through the mouse position；  
+  - Other students respectively used audio, Perlin noise, timers and other methods, but the effects were different。
 
-## 3. 动画属性与差异化
-| 动画属性                | 我的实现（User Input）                           | 他人示例               |
+## 3. Animation attributes and differentiation
+| Animation attributes                | （User Input）                           | 他人示例               |
 |:-----------------------|:-----------------------------------------------|:----------------------|
-| 背景抖动强度            | 根据鼠标 **X 轴** 位置 线性映射                   | Perlin 噪声随机驱动    |
-| 牛腿摆动幅度            | 根据鼠标 **Y 轴** 位置 线性映射                   | 定时器周期性摆动        |
-| 按键切换“高对比”模式    | 按键点击后增加摆动/抖动系数                       | 音频振幅驱动角度变化    |
+| Background jitter intensity            | Linearly map according to the position of the mouse's X-axis                   | Perlin noise is randomly driven    |
+| The swing amplitude of the ox leg            | Linearly map according to the position of the mouse's Y-axis                   | The timer swings periodically        |
+| Press the button to switch to the "High contrast" mode    | The swing/jitter coefficient is increased after the key is clicked                       | The audio amplitude drives the Angle change    |
 
-## 4. 灵感与参考
-- **设计灵感**  
-  - 交互式数据可视化中常见的鼠标联动［示例截图／链接］  
-  - p5.js 官方示例 “Interactive Particles”  
-- **代码/技术参考**  
-  - `map()` 函数映射鼠标位置 → 动画参数 （来源于：https://p5js.org/reference/#/p5/map）  
-  - BlendMode OVERLAY 实现叠加效果 （MDN 文档）
+## 4. Inspiration and Reference
+- **Design inspiration**  
+  - Common mouse linkage in interactive data visualization  
+  - Official example of p5.js: "Interactive Particles"
+**Artwork Reference**  
 
-## 5. 技术说明
+My visual choices were heavily influenced by the artwork:
+
+**Elaine de Kooning - _Untitled (Bull)_**  
+![Reference artwork: Untitled (Bull) by Elaine de Kooning](assets/untitled_bull_elaine.jpeg)
+
+![Style Reference](assets/reference_style_abstract.jpeg)
+
+The bold gestures, abstract line contours, and raw texture in de Kooning’s work inspired the rough polygonal rendering of the cow and the expressive ASCII + brushstroke visual style.
+## 5. Technical Description
 ```js
-// keyIsPressed 为 p5.js 全局变量，按键时增加动画幅度
+// "keyIsPressed" is a global variable in p5.js, which increases the animation amplitude when pressed
 let keyFactor = keyIsPressed ? 1.5 : 1.0;
 
-// 将鼠标 X/Y 映射到抖动和摆动幅度
+// Map the mouse X/Y to the jitter and swing amplitude
 let mxFactor = map(mouseX, 0, width, 0.5, 2);
 let myFactor = map(mouseY, 0, height, 0.5, 2);
