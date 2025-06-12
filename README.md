@@ -6,15 +6,15 @@
 This project is my personal reinterpretation of our group-coded ASCII cow visualization using **user input (mouse & keyboard)** as the core animation drivers. It is built with p5.js and takes inspiration from the abstract artwork "Untitled (Bull)" by Elaine de Kooning, which I selected at the beginning of the assignment.  
 Move your mouse to control background ripple and cow-leg swing; press **Space** to toggle the high-contrast animation mode and experience an interactive, rhythm-driven artwork.
 
-> **如何启动与互动**  
-- 打开 `index.html`（或 `sketch.js`）所在页面  
-- 在画面上 **移动鼠标**：  
-  - 鼠标水平移动 ⇒ 控制背景抖动强度  
-  - 鼠标垂直移动 ⇒ 控制牛腿摆动幅度  
-- 按下任意键（Space / Enter） ⇒ 切换增强动画模式
+> **How to start and interact**  
+- Open the page where 'index.html' is located
+- on the screen **Move the mouse**：  
+  - Move the mouse horizontally ⇒ Control the intensity of background jitter
+  - Move the mouse vertically ⇒ Control the swing amplitude of the bull leg 
+- Press any key (Space/Enter) ⇒ Switch to the enhanced animation mode
 
-## 2. 个人动画方案
-- **驱动方式**：User Input（鼠标+键盘）  
+## 2. Personal animation plan
+- **Drive mode**：User Input（鼠标+键盘）  
 - **与组内区别**：  
   - 我的版本基于「交互触发」，通过鼠标位置实时调整动画参数；  
   - 其他同学分别使用了音频、Perlin 噪声、定时器等方式，效果各异。
