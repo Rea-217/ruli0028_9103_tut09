@@ -1,168 +1,148 @@
-//We need a variable to hold our image
-let img;
 
-//We will divide the image into segments
-let numSegments = 50;
+const BASE_WIDTH = 840;
+const BASE_HEIGHT = 620;
 
-//We will store the segments in an array
-let segments = [];
+let bg;               
+let textureOverlay;   
+let rippleBg;        
 
-//let's add a variable to switch between drawing the image and the segments
-let drawSegments = false;
+let maxDispBase = 20;      
+let cowAmpBase = 0.06;     
 
-//Let's make an object to hold the draw properties of the image
-let imgDrwPrps = {aspect: 0, width: 0, height: 0, xOffset: 0, yOffset: 0};
-
-//And a variable for the canvas aspect ratio
-let canvasAspectRatio = 0;
-
-//let's load the image from disk
-function preload() {
-  img = loadImage('/assets/Mona_Lisa_by_Leonardo_da_Vinci_500_x_700 (1).jpg');
-}
+let body, leg1, leg2, leg3, leg4, horn1, horn2;
 
 function setup() {
-  //We will make the canvas the same size as the image using its properties
-  createCanvas(windowWidth, windowHeight);
-  //let's calculate the aspect ratio of the image - this will never change so we only need to do it once
-  imgDrwPrps.aspect = img.width / img.height;
-  
-  //now let's calculate the draw properties of the image using the function we made
-  calculateImageDrawProps();
-  //We can use the width and height of the image to calculate the size of each segment
-  //We use these values to calculate the coordinates of the centre of each segment so we can get the colour of the pixel from the image
-  let segmentWidth = img.width / numSegments;
-  let segmentHeight = img.height / numSegments;
-  /*
-  Divide the original image into segments, we are going to use nested loops, this is the same as 
-  but we have changed the class defintion so we use the row and column position of the segment
-  */
- //this will be the column position of every segment, we set it outside the loop 
-let positionInColumn = 0;
-  for (let segYPos=0; segYPos<img.height; segYPos+=segmentHeight) {
-    //this is looping over the height
-    let positionInRow = 0
-    for (let segXPos=0; segXPos<img.width; segXPos+=segmentWidth) {
-      //We will use the x and y position to get the colour of the pixel from the image
-      //let's take it from the centre of the segment
-      let segmentColour = img.get(segXPos + segmentWidth / 2, segYPos + segmentHeight / 2);
-       let segment = new ImageSegment(positionInColumn, positionInRow,segmentColour);
-       segments.push(segment);
-       positionInRow++;
-    }
-    positionInColumn++;
-  }
-  for (const segment of segments) {
-    segment.calculateSegDrawProps();
-  }
+  createCanvas(BASE_WIDTH, BASE_HEIGHT);
+  pixelDensity(1);
+  updateCanvasScale();
+
+  bg = createGraphics(width, height);
+  textureOverlay = createGraphics(width, height);
+  rippleBg = createGraphics(width, height);
+
+  createImpastoBG();
+  createGrainTexture(textureOverlay);
+
+  body = [
+    createVector(146,313), createVector(259,236), createVector(367,220),
+    createVector(461,153), createVector(622,126), createVector(642,115),
+    createVector(682,121), createVector(708,154), createVector(709,203),
+    createVector(714,219), createVector(726,239), createVector(699,262),
+    createVector(617,302), createVector(597,341), createVector(585,353),
+    createVector(521,389), createVector(478,404), createVector(383,432),
+    createVector(208,466), createVector(169,471), createVector(136,416)
+  ];
+  leg1 = [ createVector(580,350), createVector(642,384), createVector(672,438), createVector(634,421), createVector(638,414), createVector(515,385) ];
+  leg2 = [ createVector(515,384), createVector(518,477), createVector(490,467), createVector(472,400) ];
+  leg3 = [ createVector(378,428), createVector(330,434), createVector(235,514), createVector(221,546), createVector(186,553), createVector(132,593), createVector(125,580), createVector(131,542), createVector(144,530), createVector(200,497), createVector(223,452) ];
+  leg4 = [ createVector(175,466), createVector(143,495), createVector(119,500), createVector(125,501), createVector(108,533), createVector(93,582), createVector(73,583), createVector(59,587), createVector(37,568), createVector(82,500), createVector(81,480), createVector(143,410) ];
+  horn1 = [ createVector(668,169), createVector(685,190), createVector(729,183) ];
+  horn2 = [ createVector(488,128), createVector(506,143), createVector(622,125) ];
 }
+
 
 function draw() {
-  background(0);
-  if (drawSegments) {
-    //let's draw the segments to the canvas
-    for (const segment of segments) {
-      segment.draw();
+ 
+  let mxFactor = map(mouseX, 0, width, 0.5, 2);         
+  let myFactor = map(mouseY, 0, height, 0.5, 2);        
+  let keyFactor = keyIsPressed ? 1.5 : 1.0;              
+
+
+  bg.loadPixels();
+  rippleBg.loadPixels();
+
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
+      let i = (y * width + x) * 4;
+      let brightness = bg.pixels[i];
+      let maxDisp = maxDispBase * mxFactor * keyFactor;
+      let disp = map(brightness, 0, 255, 0, maxDisp);
+      let angle = sin((x + y) * 0.02 + frameCount * 0.05) * TWO_PI;
+      let sx = constrain(x + cos(angle) * disp, 0, width - 1);
+      let sy = constrain(y + sin(angle) * disp, 0, height - 1);
+      let si = (floor(sy) * width + floor(sx)) * 4;
+      rippleBg.pixels[i]   = bg.pixels[si];
+      rippleBg.pixels[i+1] = bg.pixels[si+1];
+      rippleBg.pixels[i+2] = bg.pixels[si+2];
+      rippleBg.pixels[i+3] = bg.pixels[si+3];
     }
-  } else {
-    //let's draw the image to the canvas
-    image(img, imgDrwPrps.xOffset, imgDrwPrps.yOffset, imgDrwPrps.width, imgDrwPrps.height);
   }
-}
-function keyPressed() {
-  if (key == " ") {
-    //this is a neat trick to invert a boolean variable,
-    //it will always make it the opposite of what it was
-    drawSegments = !drawSegments;
-  }
+  rippleBg.updatePixels();
+
+  image(rippleBg, 0, 0);
+
+  let swingAngle = sin(frameCount * 0.05) * (cowAmpBase * myFactor * keyFactor);
+
+  drawCow(swingAngle);
+  push(); blendMode(OVERLAY); image(textureOverlay, 0, 0); blendMode(BLEND); pop();
 }
 
-function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
-  calculateImageDrawProps();
-  for (const segment of segments) {
-    segment.calculateSegDrawProps();
+function createGrainTexture(g) {
+  const amount = 100000;
+  g.noStroke();
+  for (let i = 0; i < amount; i++) {
+    let x = random(width), y = random(height);
+    let a = random(0, 15);
+    g.fill(random()>0.5?255:0, a);
+    g.rect(x, y, 1, 1);
   }
 }
 
-function calculateImageDrawProps() {
-  //Calculate the aspect ratio of the canvas
-  canvasAspectRatio = width / height;
-  //if the image is wider than the canvas
-  if (imgDrwPrps.aspect > canvasAspectRatio) {
-    //then we will draw the image to the width of the canvas
-    imgDrwPrps.width = width;
-    //and calculate the height based on the aspect ratio
-    imgDrwPrps.height = width / imgDrwPrps.aspect;
-    imgDrwPrps.yOffset = (height - imgDrwPrps.height) / 2;
-    imgDrwPrps.xOffset = 0;
-  } else if (imgDrwPrps.aspect < canvasAspectRatio) {
-    //otherwise we will draw the image to the height of the canvas
-    imgDrwPrps.height = height;
-    //and calculate the width based on the aspect ratio
-    imgDrwPrps.width = height * imgDrwPrps.aspect;
-    imgDrwPrps.xOffset = (width - imgDrwPrps.width) / 2;
-    imgDrwPrps.yOffset = 0;
+function drawCow(swingAngle) {
+  const pivots = [ createVector(610,370), createVector(500,395), createVector(350,440), createVector(160,420) ];
+  drawRoughPolygon(body, 1, '#1a1a1a', 14);
+  [leg1,leg2,leg3,leg4].forEach((leg,i)=>{
+    let p = pivots[i];
+    push();
+      translate(p.x, p.y);
+      rotate(i % 2 ? -swingAngle : swingAngle);
+      translate(-p.x, -p.y);
+      drawRoughPolygon(leg, 1, '#1a1a1a', 14);
+    pop();
+  });
+  drawRoughPolygon(horn1, 0, '#FFF', 10);
+  drawRoughPolygon(horn2, 0, '#F5F5F5', 10);
+}
+
+function drawRoughPolygon(vs, jit=8, fc='#dbb277', sd=14) {
+  if (!vs || vs.length === 0) return;
+  let pts = [];
+  for (let i = 0; i < vs.length; i++) {
+    let p1 = vs[i], p2 = vs[(i+1) % vs.length];
+    let steps = int(dist(p1.x, p1.y, p2.x, p2.y) / sd);
+    for (let t = 0; t < steps; t++) {
+      let x = lerp(p1.x, p2.x, t/steps), y = lerp(p1.y, p2.y, t/steps);
+      let a = atan2(p2.y-p1.y, p2.x-p1.x) + HALF_PI;
+      let d = random(-jit, jit);
+      pts.push(createVector(x + cos(a)*d, y + sin(a)*d));
+    }
   }
-  else if (imgDrwPrps.aspect == canvasAspectRatio) {
-    //if the aspect ratios are the same then we can draw the image to the canvas size
-    imgDrwPrps.width = width;
-    imgDrwPrps.height = height;
-    imgDrwPrps.xOffset = 0;
-    imgDrwPrps.yOffset = 0;
+  noStroke(); fill(fc);
+  beginShape(); pts.forEach(p=>vertex(p.x, p.y)); endShape(CLOSE);
+}
+
+const noiseScale = 0.003;
+const colours = ["#fccace","#bcbdf5","#f5ce20","#f56020","#003366","#6699cc"];
+function createImpastoBG() {
+  bg.noFill(); let strokes=80000, len=12;
+  for(let i=0;i<strokes;i++){
+    let x=random(width), y=random(height);
+    let n=noise(x*noiseScale, y*noiseScale);
+    let c=colours[int(n*colours.length)%colours.length];
+    bg.stroke(c); bg.strokeWeight(random(1,2.5));
+    let an=noise(x*noiseScale*0.5, y*noiseScale*0.5, 10);
+    let a=map(an,0,1,0,TWO_PI*2);
+    bg.line(x, y, x + cos(a)*len, y + sin(a)*len);
   }
 }
-//Here is our class for the image segments, we start with the class keyword
-class ImageSegment {
 
-  constructor(columnPositionInPrm, rowPostionInPrm  ,srcImgSegColourInPrm) {
-    //Now we have changed the class a lot, instead of the x and y position of the segment, we will store the row and column position
-    //The row and column position give us relative position of the segment in the image that do not change when the image is resized
-    //We will use these to calculate the x and y position of the segment when we draw it
-
-    this.columnPosition = columnPositionInPrm;
-    this.rowPostion = rowPostionInPrm;
-    this.srcImgSegColour = srcImgSegColourInPrm;
-    //These parameters are not set when we create the segment object, we will calculate them later
-    this.drawXPos = 0;
-    this.drawYPos = 0;
-    this.drawWidth = 0;
-    this.drawHeight = 0;
-  
-    
-  }
-
-  calculateSegDrawProps() {
-    //Here is where we will calculate the draw properties of the segment.
-    //The width and height are easy to calculate, remember the image made of segments is always the same size as the whole image even when it is resized
-    //We can use the width and height we calculated for the image to be drawn, to calculate the size of each segment
-    this.drawWidth = imgDrwPrps.width / numSegments;
-    this.drawHeight = imgDrwPrps.height / numSegments;
-    
-    //we can use the row and column position to calculate the x and y position of the segment
-    //Here is a diagram to help you visualise what is going on
-    
-    //          column0 column1 column2 column3 column4
-    //             ↓       ↓       ↓       ↓       ↓
-    //    row0 → 0,0     0,1     0,2     0,3     0,4
-    //    row1 → 1,0     1,1     1,2     1,3     1.4
-    //    row2 → 2,0     2,1     2,2     2,3     2,4
-    //    row3 → 3,0     3,1     3,2     3,3     3,4
-    //    row4 → 4,0     4,1     4,2     4,3     4,4
-
-    //The x position is the row position multiplied by the width of the segment plus the x offset we calculated for the image
-    this.drawXPos = this.rowPostion * this.drawWidth + imgDrwPrps.xOffset;
-    //The y position is the column position multiplied by the height of the segment plus the y offset we calculated for the image
-    this.drawYPos = this.columnPosition * this.drawHeight + imgDrwPrps.yOffset;
-  }
-
-  draw() {
-    //let's draw the segment to the canvas, first we set the stroke and fill colours
-    stroke(0);
-    fill(this.srcImgSegColour);
-    //Then draw the segment as a rectangle, using the draw properties we calculated
-    rect(this.drawXPos, this.drawYPos, this.drawWidth, this.drawHeight);
-  }
-
-
+function updateCanvasScale(){
+  let f=min(windowWidth/BASE_WIDTH, windowHeight/BASE_HEIGHT)*0.95;
+  let c=document.querySelector('canvas');
+  c.style.transform=`scale(${f})`;
+  c.style.position='absolute';
+  c.style.left=`calc(50% - ${BASE_WIDTH*f/2}px)`;
+  c.style.top=`calc(50% - ${BASE_HEIGHT*f/2}px)`;
 }
+
+function windowResized(){ updateCanvasScale(); }
