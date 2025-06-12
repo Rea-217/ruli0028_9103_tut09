@@ -6,7 +6,7 @@
 This project is my personal reinterpretation of our group-coded ASCII cow visualization using **user input (mouse & keyboard)** as the core animation drivers. It is built with p5.js and takes inspiration from the abstract artwork "Untitled (Bull)" by Elaine de Kooning, which I selected at the beginning of the assignment.  
 Move your mouse to control background ripple and cow-leg swing; press **Space** to toggle the high-contrast animation mode and experience an interactive, rhythm-driven artwork.
 
-> **How to start and interact**  
+ **How to start and interact**  
 - Open the page where 'index.html' is located
 - on the screen **Move the mouse**：  
   - Move the mouse horizontally ⇒ Control the intensity of background jitter
