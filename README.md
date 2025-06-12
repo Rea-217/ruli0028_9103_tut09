@@ -2,6 +2,10 @@
 # Creative coding major project
 # ruli0028_9103_tut09
 
+## Introduction
+This project is my personal reinterpretation of our group-coded ASCII cow visualization using **user input (mouse & keyboard)** as the core animation drivers. It is built with p5.js and takes inspiration from the abstract artwork "Untitled (Bull)" by Elaine de Kooning, which I selected at the beginning of the assignment.  
+Move your mouse to control background ripple and cow-leg swing; press **Space** to toggle the high-contrast animation mode and experience an interactive, rhythm-driven artwork.
+
 > **如何启动与互动**  
 - 打开 `index.html`（或 `sketch.js`）所在页面  
 - 在画面上 **移动鼠标**：  
