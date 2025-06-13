@@ -42,10 +42,13 @@ My visual choices were heavily influenced by the artwork:
 The bold gestures, abstract line contours, and raw texture in de Kooning’s work inspired the rough polygonal rendering of the cow and the expressive ASCII + brushstroke visual style.
 
 ## 5. Technical Description
+
 // "keyIsPressed" is a global variable in p5.js, which increases the animation amplitude when pressed
+
 let keyFactor = keyIsPressed ? 1.5 : 1.0;
 
 // Map the mouse X/Y to the jitter and swing amplitude
+
 let mxFactor = map(mouseX, 0, width, 0.5, 2);
 let myFactor = map(mouseY, 0, height, 0.5, 2);
 
