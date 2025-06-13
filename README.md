@@ -20,11 +20,11 @@ Move your mouse to control background ripple and cow-leg swing; press **Space** 
   - Other students respectively used audio, Perlin noise, timers and other methods, but the effects were different。
 
 ## 3. Animation attributes and differentiation
-| Animation attributes                | （User Input）                           | 他人示例               |
+| Animation attributes                | （User Input）                           | 
 |:-----------------------|:-----------------------------------------------|:----------------------|
-| Background jitter intensity            | Linearly map according to the position of the mouse's X-axis                   | Perlin noise is randomly driven    |
-| The swing amplitude of the ox leg            | Linearly map according to the position of the mouse's Y-axis                   | The timer swings periodically        |
-| Press the button to switch to the "High contrast" mode    | The swing/jitter coefficient is increased after the key is clicked                       | The audio amplitude drives the Angle change    |
+| Background jitter intensity            | Linearly map according to the position of the mouse's X-axis                   | 
+| The swing amplitude of the ox leg            | Linearly map according to the position of the mouse's Y-axis                   | 
+| Press the button to switch to the "High contrast" mode    | The swing/jitter coefficient is increased after the key is clicked                       | 
 
 ## 4. Inspiration and Reference
 - **Design inspiration**  
