@@ -48,3 +48,33 @@ let keyFactor = keyIsPressed ? 1.5 : 1.0;
 // Map the mouse X/Y to the jitter and swing amplitude
 let mxFactor = map(mouseX, 0, width, 0.5, 2);
 let myFactor = map(mouseY, 0, height, 0.5, 2);
+
+## External Tools & Techniques
+
+- **Off-screen Buffers with `createGraphics()`**  
+  I used three separate p5.Graphics layers (`bg`, `rippleBg`, `textureOverlay`) to decouple my oil-stroke background, pixel-distortion buffer, and grain overlay. This multi-layer approach goes beyond the single-canvas demos we saw in Weeks 5–7 and lets me composite and manipulate each effect independently.
+
+- **Custom Per-Pixel Ripple Shader**  
+  Instead of relying on p5’s built-in filters, I wrote my own ripple algorithm by calling `loadPixels()`/`updatePixels()` and indexing the pixel array directly. I displace each sample by an amount proportional to its red-channel brightness and a sine-driven angle. This low-level pixel work was inspired by GLSL ripple tutorials (e.g. a p5.js forum thread https://discourse.processing.org/t/ripple-effect-tutorial) but fully reimplemented in JavaScript.
+
+- **Hand-drawn “Impasto” Brush Strokes via Perlin Noise**  
+  Building on Weeks 6 and 11 where we played with `noise()`, I used Perlin-noise sampling to choose both stroke color and orientation for 80 000 short lines, simulating a tactile, oil-paint impasto effect. The stroke directions come from a second noise field (`noise(x*0.0015, y*0.0015, 10)`), giving a natural, painterly randomness rather than the uniform shapes we saw in class.
+
+- **Rough Polygon Jitter**  
+  For the cow’s silhouette I wrote a `drawRoughPolygon()` helper that subdivides each edge at a fixed spacing, then offsets points perpendicular to the edge by a small random “jitter.” This hand-built jittering mimics the look of Rough.js https://github.com/rough-stuff/roughjs but is coded from scratch in p5.js.
+
+- **Interactive Control Mapping**  
+  I mapped `mouseX` and `mouseY` (Weeks 3–4 and 6 introduced mapping functions) through `map()` to smoothly vary both distortion amplitude (`0.5×…2×`) and swing strength. Plus a `keyIsPressed` boost factor (×1.5) for extra interactivity—an approach combining Weeks 5 event listeners with animation drivers from Week 10.
+
+- **Blend Modes & Grain Overlay**  
+  Drawing 100 000 semi-transparent dots on `textureOverlay` and compositing it with `blendMode(OVERLAY)` creates a unified “canvas grain” over the scene—a layer-blend technique beyond the normal shape fills of Weeks 1–8.
+
+- **Dynamic Canvas Scaling**  
+  Although Week 9 covered `windowResized()` and `resizeCanvas()`, I added a responsive CSS transform (`canvas.style.transform`) so the sketch uniformly scales within the browser window while preserving its 840 × 620 aspect ratio.
+
+- **References & Inspirations**  
+  - **The Nature of Code**: noise-driven line examples influenced my impasto strokes.  
+  - **p5.js Ripple Forum Thread**: guided pixel-array displacement logic (rewritten end-to-end).  
+  - **Rough.js Tutorial**: conceptual reference for hand-drawn polygon jitter (fully custom implementation).
+
+These extra techniques let me push past the core p5.js labs—layering graphics, per-pixel math, and bespoke jitter algorithms—to create a richly textured, interactive “oil-painting cow” that’s far more than a simple moving rectangle or circle.
