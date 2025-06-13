@@ -1,28 +1,34 @@
-
+// Global variables and constants
 const BASE_WIDTH = 840;
 const BASE_HEIGHT = 620;
 
-let bg;               
-let textureOverlay;   
-let rippleBg;        
+let bg;               // Static oil painting background layer
+let textureOverlay;   // Canvas texture layer
+let rippleBg;         // Used for storing the distorted background
 
-let maxDispBase = 20;      
-let cowAmpBase = 0.06;     
+// The user inputs the driving parameters
+let maxDispBase = 20;      // Background maximum distortion benchmark
+let cowAmpBase = 0.06;     // The reference amplitude of the ox's swing
 
+// An array of vertices of the body parts of a cow
 let body, leg1, leg2, leg3, leg4, horn1, horn2;
 
+// setup
 function setup() {
   createCanvas(BASE_WIDTH, BASE_HEIGHT);
   pixelDensity(1);
   updateCanvasScale();
 
+  // Create a layer
   bg = createGraphics(width, height);
   textureOverlay = createGraphics(width, height);
   rippleBg = createGraphics(width, height);
 
+  // Generate static backgrounds and textures
   createImpastoBG();
   createGrainTexture(textureOverlay);
 
+  // Initialize the vertex data of the Bull
   body = [
     createVector(146,313), createVector(259,236), createVector(367,220),
     createVector(461,153), createVector(622,126), createVector(642,115),
@@ -40,21 +46,23 @@ function setup() {
   horn2 = [ createVector(488,128), createVector(506,143), createVector(622,125) ];
 }
 
-
+// Core drawing loop (draw)
 function draw() {
- 
-  let mxFactor = map(mouseX, 0, width, 0.5, 2);         
-  let myFactor = map(mouseY, 0, height, 0.5, 2);        
-  let keyFactor = keyIsPressed ? 1.5 : 1.0;              
+  // Calculate the user input factor
+  let mxFactor = map(mouseX, 0, width, 0.5, 2);          // Mouse X: Background distortion multiple
+  let myFactor = map(mouseY, 0, height, 0.5, 2);         // Mouse Y: Multiple of the ox's swing
+  let keyFactor = keyIsPressed ? 1.5 : 1.0;              // Press the keyboard: Enhance the animation
 
-
+  // Load pixels
   bg.loadPixels();
   rippleBg.loadPixels();
 
+  // Distort the background based on the brightness of the red channel to achieve a water ripple effect
   for (let y = 0; y < height; y++) {
     for (let x = 0; x < width; x++) {
       let i = (y * width + x) * 4;
       let brightness = bg.pixels[i];
+      // Integrate the user input and calculate the final distortion amplitude
       let maxDisp = maxDispBase * mxFactor * keyFactor;
       let disp = map(brightness, 0, 255, 0, maxDisp);
       let angle = sin((x + y) * 0.02 + frameCount * 0.05) * TWO_PI;
@@ -69,14 +77,18 @@ function draw() {
   }
   rippleBg.updatePixels();
 
+  // Render the distorted background
   image(rippleBg, 0, 0);
 
+  // Calculate the swing Angle of the ox and add the user input factor
   let swingAngle = sin(frameCount * 0.05) * (cowAmpBase * myFactor * keyFactor);
 
+  // Draw the cow and overlay the texture
   drawCow(swingAngle);
   push(); blendMode(OVERLAY); image(textureOverlay, 0, 0); blendMode(BLEND); pop();
 }
 
+// Drawing helper function
 function createGrainTexture(g) {
   const amount = 100000;
   g.noStroke();
