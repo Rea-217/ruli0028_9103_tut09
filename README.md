@@ -35,7 +35,7 @@ Move your mouse to control background ripple and cow-leg swing; press **Space** 
 My visual choices were heavily influenced by the artwork:
 
 **Elaine de Kooning - _Untitled (Bull)_**  
-![Reference artwork: Untitled (Bull) by Elaine de Kooning](assets/untitled_bull_elaine.jpeg)
+![Reference artwork: Untitled (Bull) by Elaine de Kooning](https://uploads6.wikiart.org/images/elaine-de-kooning/untitled-bull-1973.jpg)
 
 ![Style Reference](https://npr.brightspotcdn.com/16/1d/5534dfbe42879cf38006ceeac92a/2005-36-01-ri-01b.jpeg)
 
