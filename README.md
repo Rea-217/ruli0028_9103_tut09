@@ -78,5 +78,3 @@ let myFactor = map(mouseY, 0, height, 0.5, 2);
   - **The Nature of Code**: noise-driven line examples influenced my impasto strokes.  
   - **p5.js Ripple Forum Thread**: guided pixel-array displacement logic.  
   - **Rough.js Tutorial**: conceptual reference for hand-drawn polygon jitter.
-
-
