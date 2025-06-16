@@ -37,7 +37,7 @@ My visual choices were heavily influenced by the artwork:
 **Elaine de Kooning - _Untitled (Bull)_**  
 ![Reference artwork: Untitled (Bull) by Elaine de Kooning](assets/untitled_bull_elaine.jpeg)
 
-![Style Reference](assets/reference_style_abstract.jpeg)
+![Style Reference](https://npr.brightspotcdn.com/16/1d/5534dfbe42879cf38006ceeac92a/2005-36-01-ri-01b.jpeg)
 
 The bold gestures, abstract line contours, and raw texture in de Kooning’s work inspired the rough polygonal rendering of the cow and the expressive ASCII + brushstroke visual style.
 
